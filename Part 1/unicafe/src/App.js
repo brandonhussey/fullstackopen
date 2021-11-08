@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-const Display = ({ good, neutral, bad }) => {
+const Statistics = ({ good, neutral, bad }) => {
   const all = good + neutral + bad;
   const average = (good - bad) / all || 0;
   const percentPositive = good / all || 0;
@@ -32,7 +32,7 @@ const App = () => {
       </div>
       <div id="statistics">
         <h1>Statistics</h1>
-        <Display good={good} neutral={neutral} bad={bad} />
+        <Statistics good={good} neutral={neutral} bad={bad} />
       </div>
     </div>
   );
