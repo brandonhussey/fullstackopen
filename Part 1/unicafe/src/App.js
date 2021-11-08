@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 const Display = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad;
+  const average = (good - bad) / all || 0;
+  const percentPositive = good / all || 0;
+
   return (
     <div>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>All: {all}</p>
+      <p>Average:{average}</p>
+      <p>Percent Positive:{percentPositive}</p>
     </div>
   );
 };
