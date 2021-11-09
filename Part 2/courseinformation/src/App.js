@@ -26,16 +26,17 @@ const Content = (props) => {
   );
 };
 const Total = ({ parts }) => {
-  console.log(parts);
-  const result = parts.map((part) => part.exercises);
-  console.log(result);
-  const reducer = (previousValue, currentValue) => previousValue + currentValue;
-  console.log(result.reduce(reducer));
+  let total = parts.reduce(
+    (previousValue, currentValue) => previousValue + currentValue.exercises,
+    0
+  );
+
+  console.log(total);
 
   return (
     <div>
       <p>
-        Number of exercises {result.reduce(reducer)}
+        Number of exercises {total}
         {/* {props.parts[0].exercises +
           props.parts[1].exercises +
           props.parts[2].exercises} */}
