@@ -11,7 +11,15 @@ const App = () => {
       name: newName,
     };
 
-    setPersons(persons.concat(personObject));
+    if (
+      persons.some(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      )
+    ) {
+      alert(`${newName} already exists`);
+    } else {
+      setPersons(persons.concat(personObject));
+    }
     setNewName("");
   };
 
