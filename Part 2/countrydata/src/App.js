@@ -4,7 +4,6 @@ import Display from "./Components/Display";
 
 function App() {
   const [allCountries, setAllCountries] = useState([]);
-  const [countries, setCountries] = useState([]);
   const [newFilter, setNewFilter] = useState("");
 
   useEffect(() => {
