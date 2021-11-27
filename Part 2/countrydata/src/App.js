@@ -19,13 +19,16 @@ function App() {
   };
 
   const filteredCountries = allCountries.filter(({ name }) =>
-    name.common.toLowerCase().includes(newFilter.toLowerCase())
+    name.common.toLowerCase().includes(newFilter)
   );
 
   return (
     <div>
       Find Countries: <input value={newFilter} onChange={handleFilterChange} />
-      <Display filteredCountries={filteredCountries} />
+      <Display
+        filteredCountries={filteredCountries}
+        setNewFilter={setNewFilter}
+      />
     </div>
   );
 }

@@ -1,14 +1,21 @@
 import React from "react";
 import Country from "./Country";
 
-const Display = ({ filteredCountries }) => {
+const Display = ({ filteredCountries, setNewFilter }) => {
   if (filteredCountries.length > 10) {
     return <h2>Too many results, please narrow search.</h2>;
   } else if (filteredCountries.length > 1 && filteredCountries.length <= 10) {
     return (
       <div>
         {filteredCountries.map((country) => (
-          <ul key={country.name.common}>{country.name.common}</ul>
+          <ul key={country.name.common}>
+            {country.name.common}
+            <button
+              onClick={() => setNewFilter([country.name.common.toLowerCase()])}
+            >
+              Show
+            </button>
+          </ul>
         ))}
       </div>
     );
