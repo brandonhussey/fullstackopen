@@ -32,9 +32,17 @@ const App = () => {
     if (
       persons.some(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
-      )
+      ) &&
+      persons.some((person) => person.number === newNumber)
     ) {
       alert(`${newName} already exists`);
+    } else if (
+      persons.some(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      ) &&
+      persons.some((person) => person.number !== newNumber)
+    ) {
+      updatePerson(newName, newNumber);
     } else {
       personService
         .addPerson(personObject)
@@ -70,6 +78,34 @@ const App = () => {
       personService.deletePerson(id).then(() => {
         setPersons(persons.splice(id));
       });
+    } else {
+      return;
+    }
+  };
+
+  const updatePerson = (name, updatedNumber) => {
+    if (
+      window.confirm(
+        `${name} already exists, would you like to update the number?`
+      )
+    ) {
+      const selectedPerson = persons.find(
+        (p) => p.name.toLowerCase() === name.toLowerCase()
+      );
+      const updatedPerson = { ...selectedPerson, number: updatedNumber };
+
+      personService
+        .updatePerson(selectedPerson.id, updatedPerson)
+        .then((returnedPerson) => {
+          setPersons(
+            persons.map((person) =>
+              person.id !== selectedPerson.id ? person : returnedPerson
+            )
+          );
+        })
+        .catch((error) => {
+          alert("Could not update number");
+        });
     } else {
       return;
     }
