@@ -64,6 +64,17 @@ const App = () => {
     name.toLowerCase().includes(newFilter.toLowerCase())
   );
 
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      console.log(`DELETE ${id}`);
+      personService.deletePerson(id).then(() => {
+        setPersons(persons.splice(id));
+      });
+    } else {
+      return;
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -78,7 +89,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Phonebook filterNames={filterNames} />
+      <Phonebook filterNames={filterNames} deletePerson={deletePerson} />
     </div>
   );
 };
