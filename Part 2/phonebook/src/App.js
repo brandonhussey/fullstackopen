@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Form from "./Components/Form";
 import Phonebook from "./Components/Phonebook";
 import Filter from "./Components/Filter";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,12 +11,15 @@ const App = () => {
   const [newFilter, setNewFilter] = useState("");
 
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
-    });
-  }, []);
+    personService
+      .getAll()
+      .then((initialPersons) => {
+        setPersons(initialPersons);
+      })
+      .catch((error) => {
+        alert("Could not load content");
+      });
+  });
 
   const addPerson = (e) => {
     e.preventDefault();
@@ -33,18 +36,17 @@ const App = () => {
     ) {
       alert(`${newName} already exists`);
     } else {
-      // setPersons(persons.concat(personObject));
-      axios
-        .post("http://localhost:3001/persons", personObject)
-        .then((response) => {
-          console.log(response);
-          setPersons(persons.concat(response.data));
+      personService
+        .addPerson(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
           setNewName("");
           setNewNumber("");
+        })
+        .catch((error) => {
+          alert("could not add person");
         });
     }
-    setNewName("");
-    setNewNumber("");
   };
 
   const handleNameChange = (e) => {
