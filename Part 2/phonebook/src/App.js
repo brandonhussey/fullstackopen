@@ -19,14 +19,13 @@ const App = () => {
       .catch((error) => {
         alert("Could not load content");
       });
-  });
+  }, []);
 
   const addPerson = (e) => {
     e.preventDefault();
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
 
     if (
@@ -76,7 +75,9 @@ const App = () => {
     if (window.confirm(`Delete ${name}?`)) {
       console.log(`DELETE ${id}`);
       personService.deletePerson(id).then(() => {
-        setPersons(persons.splice(id));
+        personService
+          .getAll()
+          .then((initialPersons) => setPersons(initialPersons));
       });
     } else {
       return;
@@ -102,6 +103,8 @@ const App = () => {
               person.id !== selectedPerson.id ? person : returnedPerson
             )
           );
+          setNewName("");
+          setNewNumber("");
         })
         .catch((error) => {
           alert("Could not update number");
