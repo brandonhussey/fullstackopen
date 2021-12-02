@@ -3,12 +3,14 @@ import Form from "./Components/Form";
 import Phonebook from "./Components/Phonebook";
 import Filter from "./Components/Filter";
 import personService from "./services/persons";
+import Notification from "./Components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -17,7 +19,7 @@ const App = () => {
         setPersons(initialPersons);
       })
       .catch((error) => {
-        alert("Could not load content");
+        createMessage(`Could not load content!`, "error");
       });
   }, []);
 
@@ -34,7 +36,9 @@ const App = () => {
       ) &&
       persons.some((person) => person.number === newNumber)
     ) {
-      alert(`${newName} already exists`);
+      createMessage(`${newName} already exists!`, "error");
+      setNewName("");
+      setNewNumber("");
     } else if (
       persons.some(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
@@ -49,9 +53,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName("");
           setNewNumber("");
+          createMessage(`${newName} has been added!`, "success");
         })
         .catch((error) => {
-          alert("could not add person");
+          createMessage(`Could not add ${newName}!`, "error");
         });
     }
   };
@@ -67,6 +72,16 @@ const App = () => {
     console.log(newFilter);
   };
 
+  const createMessage = (message, type) => {
+    setMessage({
+      messageText: message,
+      type: type,
+    });
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  };
+
   const filterNames = persons.filter(({ name }) =>
     name.toLowerCase().includes(newFilter.toLowerCase())
   );
@@ -79,6 +94,7 @@ const App = () => {
           .getAll()
           .then((initialPersons) => setPersons(initialPersons));
       });
+      createMessage(`${name} has been deleted!`, "success");
     } else {
       return;
     }
@@ -105,9 +121,13 @@ const App = () => {
           );
           setNewName("");
           setNewNumber("");
+          createMessage(`${selectedPerson.name} has been updated!`, "success");
         })
         .catch((error) => {
-          alert("Could not update number");
+          createMessage(
+            `${selectedPerson.name} could not be updated!`,
+            "error"
+          );
         });
     } else {
       return;
@@ -116,6 +136,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} />
       <h2>Phonebook</h2>
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
 
