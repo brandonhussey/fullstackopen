@@ -1,4 +1,4 @@
-const { request } = require("express");
+const { request, response } = require("express");
 const express = require("express");
 const app = express();
 
@@ -45,6 +45,12 @@ app.get("/info", (request, response) => {
   response.send(`
   <p>Phonebook has info for ${persons.length} people.</p>
   ${Date()}`);
+});
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== id);
+
+  response.status(204).end();
 });
 
 const PORT = 3001;
