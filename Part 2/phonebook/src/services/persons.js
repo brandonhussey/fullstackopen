@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://agile-temple-25255.herokuapp.com/api/persons";
+const baseURL = "/api/persons";
 
 const getAll = () => {
   const request = axios.get(baseURL);
