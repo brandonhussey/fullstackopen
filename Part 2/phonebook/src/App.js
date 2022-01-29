@@ -56,7 +56,8 @@ const App = () => {
           createMessage(`${newName} has been added!`, "success");
         })
         .catch((error) => {
-          createMessage(`Could not add ${newName}!`, "error");
+          console.log(error.response.data);
+          createMessage(error.response.data.error, "error");
         });
     }
   };
@@ -92,7 +93,10 @@ const App = () => {
       personService.deletePerson(id).then(() => {
         personService
           .getAll()
-          .then((initialPersons) => setPersons(initialPersons));
+          .then((initialPersons) => setPersons(initialPersons))
+          .catch((error) => {
+            createMessage(error.response.data.error, "error");
+          });
       });
       createMessage(`${name} has been deleted!`, "success");
     } else {
@@ -124,10 +128,7 @@ const App = () => {
           createMessage(`${selectedPerson.name} has been updated!`, "success");
         })
         .catch((error) => {
-          createMessage(
-            `${selectedPerson.name} could not be updated!`,
-            "error"
-          );
+          createMessage(error.response.data.error, "error");
         });
     } else {
       return;
