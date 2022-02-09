@@ -1,3 +1,4 @@
+require('dotenv').config()
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -14,7 +15,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = 'mongodb+srv://bloglistadmin:Yqgk8Lh6H8SAEhU@cluster0.igey1.mongodb.net/Cluster0?retryWrites=true&w=majority'
+const mongoUrl = process.env.MONGODB_URI
 mongoose.connect(mongoUrl)
 
 app.use(cors())
