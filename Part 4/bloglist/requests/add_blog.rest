@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 Content-Type: application/json
 
     {
-        "title": "My Day 2",
+        "title": "Tomato Soup",
         "author": "Blogger McBlogface",
-        "url": "themostboringblog.gov",
-        "likes": 7
+        "url": "whatissoup.gov",
+        "likes": 700
     }
