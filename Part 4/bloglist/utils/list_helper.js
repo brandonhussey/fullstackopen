@@ -1,32 +1,33 @@
-const { result, groupBy } = require('lodash');
+/* eslint-disable no-unused-vars */
+const { result, groupBy } = require('lodash')
 const _ = require('lodash')
 
 const dummy = (posts) => {
-    return 1;
-  }
-  
+  return 1
+}
 
-  const totalLikes = (posts) => {
-    return posts.reduce((sum, item) => sum + item.likes, 0)
-  }
 
-  const favouriteBlog = (posts) => {
-      let max = 0;
-      let favouritePost = {}
+const totalLikes = (posts) => {
+  return posts.reduce((sum, item) => sum + item.likes, 0)
+}
 
-      posts.forEach(post => {
-          if(post.likes > max) {
-              max = post.likes
-              favouritePost = post
-          }
-      });
+const favouriteBlog = (posts) => {
+  let max = 0
+  let favouritePost = {}
 
-      return favouritePost;
-  }
+  posts.forEach(post => {
+    if(post.likes > max) {
+      max = post.likes
+      favouritePost = post
+    }
+  })
 
-  const mostBlogs = (posts) => {
+  return favouritePost
+}
 
-    const authorWithMostPosts = _.chain(_.countBy(posts, 'author'))
+const mostBlogs = (posts) => {
+
+  const authorWithMostPosts = _.chain(_.countBy(posts, 'author'))
     .map((obj, keys) => ({
       author: keys,
       blogs: obj
@@ -34,25 +35,25 @@ const dummy = (posts) => {
     .orderBy(['blogs'], ['desc'])
     .value()
 
-    return authorWithMostPosts[0];
-  }
+  return authorWithMostPosts[0]
+}
 
-  const mostLikes = (posts) => {
-    const authorWithMostLikes = _.chain(_.groupBy(posts, 'author'))
+const mostLikes = (posts) => {
+  const authorWithMostLikes = _.chain(_.groupBy(posts, 'author'))
     .map((obj, keys) => ({
       author: keys,
       likes: _.sumBy(obj, 'likes')
     }))
     .orderBy(['likes'], ['desc'])
-    .value();
+    .value()
 
-    return authorWithMostLikes[0];
-  }
+  return authorWithMostLikes[0]
+}
 
-  module.exports = {
-    dummy,
-    totalLikes,
-    favouriteBlog,
-    mostBlogs,
-    mostLikes,
-  }
+module.exports = {
+  dummy,
+  totalLikes,
+  favouriteBlog,
+  mostBlogs,
+  mostLikes,
+}
